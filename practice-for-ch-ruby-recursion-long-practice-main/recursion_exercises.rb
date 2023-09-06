@@ -212,20 +212,26 @@ end
                         #     [2, 1, 3], [2, 3, 1], => (permutations[1,2] + 3 
                         #     [3, 1, 2], [3, 2, 1]]
 
-def make_change(amt, coins)
-end
 
 def greedy_make_change(amt, coins)
-    coin_counter = Array.new(coins.length, 0)
+    #coin_counter = Array.new(coins.length, 0)
+    return 0 if amt == 0 
     sorted_coins = merge_sort(coins).reverse
     sorted_coins.each.with_index do |coin, i|
         while amt - coin >= 0
             amt -= coin
-            coin_counter[i] += 1
+            return 1 + greedy_make_change(amt, coins)
         end
     end
-    return coin_counter
+    #
 end
+
+
+def make_better_change(amt, coins)
+    
+end
+
+
 
 coins = [1, 5, 10, 25]
 p greedy_make_change(100, coins)
