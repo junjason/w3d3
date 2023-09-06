@@ -191,14 +191,44 @@ end
 # p subsets([1, 2, 3]) # => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
 
 def permutations(arr)
-    return arr if arr.length == 1 || arr.length == 0
-    prev_perms = permutations[0...-1]
-    
-
+    return [[]] if arr.length == 0
+    return [arr] if arr.length == 1
+    prev_perms = permutations(arr[0...-1])
+    all_perms = []
+    (0...prev_perms.length).each do |i|
+        curr_prev_perm = prev_perms[i]
+        (0...arr.length).each do |j|
+            new_perm = curr_prev_perm.deep_dup
+            new_perm.insert(j, arr[-1])
+            all_perms << new_perm
+        end
+    end
+    all_perms
 end
 
-permutations([1]) # => [1]
-permutations([1, 2]) # => [[1,2], [2,1]] = permutations[1] + 2
-permutations([1, 2, 3]) # => [[1, 2, 3], [1, 3, 2],
+#p permutations([1]) # => [[1]]
+#p permutations([1, 2]) # => [[1,2], [2,1]] = permutations[1] + 2
+#p permutations([1, 2, 3]) # => [[1, 2, 3], [1, 3, 2],
                         #     [2, 1, 3], [2, 3, 1], => (permutations[1,2] + 3 
                         #     [3, 1, 2], [3, 2, 1]]
+
+def make_change(amt, coins)
+end
+
+def greedy_make_change(amt, coins)
+    coin_counter = Array.new(coins.length, 0)
+    sorted_coins = merge_sort(coins).reverse
+    sorted_coins.each.with_index do |coin, i|
+        while amt - coin >= 0
+            amt -= coin
+            coin_counter[i] += 1
+        end
+    end
+    return coin_counter
+end
+
+coins = [1, 5, 10, 25]
+p greedy_make_change(100, coins)
+p greedy_make_change(101, coins)
+p greedy_make_change(107, coins)
+p greedy_make_change(24, [10, 7, 1])
