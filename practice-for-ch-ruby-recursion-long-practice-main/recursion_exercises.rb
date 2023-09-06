@@ -176,16 +176,29 @@ def subsets(arr)
     return [[], arr] if arr.length == 1
     start = subsets(arr[0...1])
     (1...arr.length).each do |i|
-        next_arr = start.dup
-        next_arr.each.with_index do |ele, idx|
-            next_arr << arr[i]
+        add = start.deep_dup
+        add.each_with_index do |el, j|
+            add[j] << arr[i]
         end
-        start += next_arr
+        start += add
     end
     start
 end
 
-p subsets([]) # => [[]]
-p subsets([1]) # => [[], [1]]
-p subsets([1, 2]) # => [[], [1], [2], [1, 2]]
-p subsets([1, 2, 3])
+# p subsets([]) # => [[]]
+# p subsets([1]) # => [[], [1]]
+# p subsets([1, 2]) # => [[], [1], [2], [1, 2]]
+# p subsets([1, 2, 3]) # => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+
+def permutations(arr)
+    return arr if arr.length == 1 || arr.length == 0
+    prev_perms = permutations[0...-1]
+    
+
+end
+
+permutations([1]) # => [1]
+permutations([1, 2]) # => [[1,2], [2,1]] = permutations[1] + 2
+permutations([1, 2, 3]) # => [[1, 2, 3], [1, 3, 2],
+                        #     [2, 1, 3], [2, 3, 1], => (permutations[1,2] + 3 
+                        #     [3, 1, 2], [3, 2, 1]]
