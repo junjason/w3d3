@@ -123,6 +123,7 @@ def bsearch(arr, target)
     end
 end
 
+
 # p bsearch([1, 2, 3], 1) # => 0
 # p bsearch([2, 3, 4, 5], 3) # => 1
 # p bsearch([2, 4, 6, 8, 10], 6) # => 2
@@ -131,5 +132,60 @@ end
 # p bsearch([1, 2, 3, 4, 5, 6], 0) # => nil
 # p bsearch([1, 2, 3, 4, 5, 7], 6) # => nil
 
+def merge(arr_1, arr_2)
+    i_1 = 0
+    i_2 = 0
+    merged = []
+    while i_1 < arr_1.length && i_2 < arr_2.length
+        if arr_1[i_1] >= arr_2[i_2]
+            merged << arr_2[i_2]
+            i_2 += 1
+        else
+            merged << arr_1[i_1]
+            i_1 += 1
+        end
+    end
+    if i_1 == arr_1.length && i_2 < arr_2.length
+        while i_2 < arr_2.length
+            merged << arr_2[i_2]
+            i_2 += 1
+        end
+    end
+    if i_1 < arr_1.length && i_2 == arr_2.length
+        while i_1 < arr_1.length
+            merged << arr_1[i_1]
+            i_1 += 1
+        end
+    end
+    return merged
+end
 
+def merge_sort(arr)
+    mid = (arr.length/2) - 1
+    return [] if arr.length == 0 
+    return arr if arr.length == 1
+    #p merge_sort(arr[0..mid])
+    merge(merge_sort(arr[0..mid]), merge_sort(arr[mid+1..-1]))
+end
 
+#arr = [6, 5, 3, 1, 7, 8, 2, 4]
+#p merge_sort(arr)
+
+def subsets(arr)
+    return [[]] if arr.length == 0
+    return [[], arr] if arr.length == 1
+    start = subsets(arr[0...1])
+    (1...arr.length).each do |i|
+        next_arr = start.dup
+        next_arr.each.with_index do |ele, idx|
+            next_arr << arr[i]
+        end
+        start += next_arr
+    end
+    start
+end
+
+p subsets([]) # => [[]]
+p subsets([1]) # => [[], [1]]
+p subsets([1, 2]) # => [[], [1], [2], [1, 2]]
+p subsets([1, 2, 3])
